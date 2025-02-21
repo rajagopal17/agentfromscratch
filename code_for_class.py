@@ -9,7 +9,7 @@ mistrl_api_key = os.getenv("MISTRL_API_KEY")
 model = "mistral-large-latest"
 client    = Mistral(api_key=mistrl_api_key)
 
-class Agent:
+class ZAgent:
     def __init__(self, system_prompt=""):
         self.system_prompt = system_prompt
         self.messages = []
@@ -30,8 +30,8 @@ class Agent:
         return completion.choices[0].message.content
     
 
-mybot = Agent("you are a marketing expert who can provide list of famous brands for the product")
-agrbot = Agent("you are a agricultural expert who can provide list of pests affecting the given crop")
+mybot = ZAgent("you are a marketing expert who can provide list of famous brands for the product")
+agrbot = ZAgent("you are a agricultural expert who can provide list of pests affecting the given crop")
 print(mybot('mobile phone'))
 print('/n--------      AGRI BOT    -------------/n')
 print(agrbot('rice'))
