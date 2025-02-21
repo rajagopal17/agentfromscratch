@@ -14,3 +14,7 @@ The call function has another variable (product)
 The agent function can be initialized with system prompt: ex- provide a list of xxxx and that xxx can be passed in the call function.
 
 This helps to reuse the class for different purposes. By changing the prompt we can get the LLM to answer based on the system prompt.
+
+pydantic: Pydantic class was added to format the final output.  The output from ZAGENT class is passed to pydantic to format the output into model_dump() which is a json format.
+
+Then this Json format is easily converted to dataframe as final output

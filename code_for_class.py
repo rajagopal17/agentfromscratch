@@ -1,13 +1,22 @@
 import os
 from dotenv import load_dotenv
-load_dotenv()
-
-
-
+from pydantic import BaseModel
+from pydantic_ai import Agent,ModelRetry
 from mistralai import Mistral
+from pydantic_ai.models.mistral import MistralModel
+import json
+from mistralai import Mistral
+
+load_dotenv()
 mistrl_api_key = os.getenv("MISTRL_API_KEY")
-model = "mistral-large-latest"
-client    = Mistral(api_key=mistrl_api_key)
+model          = "mistral-large-latest"
+client         = Mistral(api_key=mistrl_api_key)
+mist_model     = MistralModel('mistral-small-latest',api_key=mistrl_api_key)
+
+class ResponseModel(BaseModel):
+    brand_name   : list[str]
+    description  : list[str]
+
 
 class ZAgent:
     def __init__(self, system_prompt=""):
@@ -23,15 +32,28 @@ class ZAgent:
         return result
 
     def execute(self):
-        completion = client.chat.complete(
-                        model        = "mistral-large-latest", 
-                        temperature  = 0,
-                        messages     = self.messages)
-        return completion.choices[0].message.content
+        completion       = client.chat.complete(
+                            model         = "mistral-large-latest", 
+                            temperature   = 0,
+                            messages      = self.messages)
+        response_content = completion.choices[0].message.content
+        f_agent          =  Agent( model  = mist_model, #openai_model
+                            result_type   = ResponseModel,
+                            system_prompt = f'''you are a helpful assistant..you need to copy the  data of {response_content} in required format
+                                             ''',
+                        retries           = 1)
+
+        final_format     = f_agent.run_sync('hi')
+
+        return final_format.data.model_dump()
     
 
 mybot = ZAgent("you are a marketing expert who can provide list of famous brands for the product")
-agrbot = ZAgent("you are a agricultural expert who can provide list of pests affecting the given crop")
-print(mybot('mobile phone'))
-print('/n--------      AGRI BOT    -------------/n')
-print(agrbot('rice'))
+#agrbot = ZAgent("you are a agricultural expert who can provide list of pests affecting the given crop")
+botresponse = mybot('mobile phone')
+print(f"--------     Tech Bot    -------------\n")
+
+import pandas as pd
+df = pd.DataFrame(botresponse, columns = ['brand_name','description'])
+print(df)
+
