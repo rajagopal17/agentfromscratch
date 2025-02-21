@@ -37,7 +37,7 @@ class ZAgent:
                             temperature   = 0,
                             messages      = self.messages)
         response_content = completion.choices[0].message.content
-        f_agent          =  Agent( model  = mist_model, #openai_model
+        f_agent          =  Agent( model  = mist_model, 
                             result_type   = ResponseModel,
                             system_prompt = f'''you are a helpful assistant..you need to copy the  data of {response_content} in required format
                                              ''',
