@@ -40,8 +40,7 @@ class ZAgent:
         f_agent          =  Agent( model  = mist_model, 
                             result_type   = ResponseModel,
                             system_prompt = f'''you are a helpful assistant..you need to copy the  data of {response_content} in required format
-                                             ''',
-                        retries           = 1)
+                                             ''')
 
         final_format     = f_agent.run_sync('hi')
 
