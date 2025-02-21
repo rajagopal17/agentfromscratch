@@ -1,0 +1,3 @@
+pip install ollama 
+pip install python-dotenv
+pip install 'pydantic-ai-slim[mistral]'
