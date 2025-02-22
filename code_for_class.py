@@ -14,7 +14,7 @@ client         = Mistral(api_key=mistrl_api_key)
 mist_model     = MistralModel('mistral-small-latest',api_key=mistrl_api_key)
 
 class ResponseModel(BaseModel):
-    brand_name   : list[str]
+    pest_name   : list[str]
     description  : list[str]
 
 
@@ -47,12 +47,13 @@ class ZAgent:
         return final_format.data.model_dump()
     
 
-mybot = ZAgent("you are a marketing expert who can provide list of famous brands for the product")
-#agrbot = ZAgent("you are a agricultural expert who can provide list of pests affecting the given crop")
-botresponse = mybot('mobile phone')
-print(f"--------     Tech Bot    -------------\n")
+#mybot = ZAgent("you are a marketing expert who can provide list of famous brands for the product")
+#techbot_response = mybot('laptop')
+agrbot = ZAgent("you are a agricultural expert who can provide list of pests affecting the given crop")
+botresponse = agrbot('wheat')
+print(f"--------     Agri Bot    -------------\n")
 
 import pandas as pd
-df = pd.DataFrame(botresponse, columns = ['brand_name','description'])
+df = pd.DataFrame(botresponse, columns = ['pest_name','description'])
 print(df)
 
