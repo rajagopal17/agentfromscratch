@@ -49,7 +49,7 @@ class ZAgent:
 
 #mybot = ZAgent("you are a marketing expert who can provide list of famous brands for the product")
 #techbot_response = mybot('laptop')
-agrbot = ZAgent("you are a agricultural expert who can provide list of pests affecting the given crop")
+agrbot = ZAgent("you are a agricultural expert who can provide list of pests affecting the crop requested")
 botresponse = agrbot('wheat')
 print(f"--------     Agri Bot    -------------\n")
 
